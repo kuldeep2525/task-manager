@@ -1,0 +1,23 @@
+// Import Google Fonts
+@import url("https://fonts.googleapis.com/css?family=Nunito:400,700|Lato:400,800,900");
+
+$family-sans-serif: "Nunito", sans-serif;
+
+/* GLOBAL STYLES */
+html,
+body {
+  height: 100%;
+  //background-image: url('./assets/background.svg');
+  background: -webkit-linear-gradient(#13f7f4, #2af598);
+}
+
+html {
+  background-size: cover;
+  overflow-y: auto !important;
+}
+
+a:hover {
+  cursor: pointer !important;
+  text-decoration: underline !important;
+  color: #007bff !important;
+}

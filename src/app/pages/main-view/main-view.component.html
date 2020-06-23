@@ -1,0 +1,71 @@
+<div class="wrapper">
+  <div class="app-title">
+    <h1 class="app-name has-gradient-text text-center">Task Manager</h1>
+  </div>
+
+  <div cdkDropListGroup class="row">
+    <div class="card col-3" *ngFor="let column of list;let i=index">
+      <div class="card-body">
+        <h4 class="card-title">
+          <div style="float: left">{{ column.listName }}</div>
+          <div style="float: right"><i class="fa fa-trash" (click)="deleteList(i)"> </i></div>
+        </h4>
+        <div style="clear: both;"></div>
+
+        <div class="card-text" cdkDropList [cdkDropListData]="column.taskList" (cdkDropListDropped)="drop($event)">
+          <div class="task" *ngFor="let item of column.taskList;let j=index" cdkDrag>
+            <div style="float: left">{{ item }}</div>
+            <div style="float: right"><i class="fa fa-trash" (click)="deleteTask(i,j)"> </i></div>
+          </div>
+          <a (click)="openModal(editProfileModal,{modalName:'task',index : i})">{{column?.taskList?.length > 0 ? '+ Add a Another Card' :'+ Add Card'}}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card col-3">
+      <a
+        (click)="openModal(editProfileModal,{modalName:'list'})">{{list?.length > 0 ? '+ Add a Another List' :'+ Add a List'}}</a>
+    </div>
+
+  </div>
+
+</div>
+
+
+<ng-template #editProfileModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="editProfileLabel" *ngIf="selectedData.modalName == 'list'">Add New List</h5>
+    <h5 class="modal-title" id="editProfileLabel" *ngIf="selectedData.modalName == 'task'">Add New Task</h5>
+
+    <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="saveDataForm" (ngSubmit)="onSubmit()">
+      <div class="form-group row">
+        <label for="saveDataModalInput" class="col-sm-4 col-form-label" *ngIf="selectedData.modalName == 'list'">List
+          Name</label>
+        <label for="saveDataModalInput" class="col-sm-4 col-form-label" *ngIf="selectedData.modalName == 'task'">Task
+          Name</label>
+
+        <div class="col-sm-8">
+          <input type="text" class="form-control" formControlName="saveDataModalInput" id="saveDataModalInput"
+            (focus)="removeError()">
+          <div class="error">
+            <div *ngIf="showErrorListExist">List already Exists</div>
+            <div *ngIf="showErrorTaskExist">Task already Exists</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button [disabled]="!saveDataForm.valid || showErrorListExist || showErrorTaskExist" type="submit"
+          class="btn btn-primary">Save changes</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
