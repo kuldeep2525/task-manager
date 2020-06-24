@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HomeFacade } from './home.facade';
 import { AppState } from '../../state/app.state'
+
+import { AddTaskDialogComponent } from '../add-task-dialog/add-task-dialog.component';
 
 declare var $: any;
 
@@ -14,20 +15,11 @@ declare var $: any;
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  addTaskDataForm: FormGroup;
-  task = '';
-  addTaskDataFormResponse;
-
-  addTaskDataModalRef;
-  selectedList;
-  showErrorTaskExist = false;
-
   todoList = [];
   inProgressList = [];
   doneList = [];
 
-
-  constructor(private confirmationDialogService: ConfirmationDialogService, private fb: FormBuilder, private modalService: NgbModal, public mainviewFacade: HomeFacade) {
+  constructor(private confirmationDialogService: ConfirmationDialogService, public modalService: NgbModal, public mainviewFacade: HomeFacade) {
 
     this.mainviewFacade.getState().subscribe((state: AppState) => {
       console.log("state =", state)
@@ -41,14 +33,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.addTaskDataForm = this.fb.group({
-      task: ['', Validators.required]
-    });
-   
-  }
-
-  get addTaskDataFormControl() {
-    return this.addTaskDataForm.controls;
   }
 
   onDrop(event: CdkDragDrop<string[]>) {
@@ -68,7 +52,6 @@ export class HomeComponent implements OnInit {
       if (event.container.id == 'done') {
         this.mainviewFacade.setDoneState(event.previousContainer.data);
       }
-
     } else {
       transferArrayItem(event.previousContainer.data,
         event.container.data,
@@ -94,37 +77,24 @@ export class HomeComponent implements OnInit {
       if (event.container.id == 'done') {
         this.mainviewFacade.setDoneState(event.container.data);
       }
-
     }
   }
 
   // ADD TASK
   onAddTask(selectedList, taskName) {
     if (selectedList == 'todo') {
-      if (this.todoList.indexOf(taskName) > -1) {
-        this.showErrorTaskExist = true;
-      } else {
-        this.todoList.push(taskName);
-        this.mainviewFacade.setTodoState(this.todoList);
-      }
+      this.todoList.push(taskName);
+      this.mainviewFacade.setTodoState(this.todoList);
     }
 
     if (selectedList == 'inProgress') {
-      if (this.inProgressList.indexOf(taskName) > -1) {
-        this.showErrorTaskExist = true;
-      } else {
-        this.inProgressList.push(taskName);
-        this.mainviewFacade.setInprogressState(this.inProgressList);
-      }
+      this.inProgressList.push(taskName);
+      this.mainviewFacade.setInprogressState(this.inProgressList);
     }
 
     if (selectedList == 'done') {
-      if (this.doneList.indexOf(taskName) > -1) {
-        this.showErrorTaskExist = true;
-      } else {
-        this.doneList.push(taskName);
-        this.mainviewFacade.setDoneState(this.doneList);
-      }
+      this.doneList.push(taskName);
+      this.mainviewFacade.setDoneState(this.doneList);
     }
   }
 
@@ -156,27 +126,21 @@ export class HomeComponent implements OnInit {
   }
 
   //Save popup
-  onOpenAddTaskDataModal(targetModal, selectedList) {  
-    this.selectedList = selectedList;
-    this.addTaskDataModalRef = this.modalService.open(targetModal);
-  }
-
-  onSubmitAddTaskDataForm() {
-    this.addTaskDataFormResponse = this.addTaskDataForm.getRawValue();
-    console.log("res:", this.addTaskDataFormResponse);
-    this.onAddTask(this.selectedList, this.addTaskDataFormResponse.task);
-    if (!this.showErrorTaskExist) {
-      this.closeModal();
+  onOpenAddTaskDataModal(list, selectedList) {
+    const modalRef = this.modalService.open(AddTaskDialogComponent);
+    modalRef.componentInstance.parentData = {
+      list: list,
+      selectedList: selectedList
     }
-  }
 
-  removeCustomError() {
-    this.showErrorTaskExist = false;
-  }
+    modalRef.result.then((result) => {
+      if (!result.isError && result.task) {
+        this.onAddTask(selectedList, result.task);
+      }
+    }).catch((result) => {
 
-  closeModal() {
-    this.addTaskDataModalRef.close();
-    this.addTaskDataForm.controls['task'].reset();
+    });
+
   }
 
 }

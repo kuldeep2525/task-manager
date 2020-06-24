@@ -11,6 +11,8 @@ import {StoreModule} from '@ngrx/store';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { AddTaskDialogComponent } from './components/add-task-dialog/add-task-dialog.component';
+
 
 //SERVICES
 import { ConfirmationDialogService } from './components/confirmation-dialog/confirmation-dialog.service';
@@ -24,7 +26,8 @@ import {
   declarations: [
     AppComponent,
     HomeComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    AddTaskDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +42,6 @@ import {
   ],
   providers: [ConfirmationDialogService],
   bootstrap: [AppComponent],
-  entryComponents: [ConfirmationDialogComponent]
+  entryComponents: [ConfirmationDialogComponent,AddTaskDialogComponent]
 })
 export class AppModule { }
