@@ -5,19 +5,25 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {StoreModule} from '@ngrx/store';
 
 //COMPONENTS
 import { AppComponent } from './app.component';
-import { MainViewComponent } from './pages/main-view/main-view.component';
-import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { HomeComponent } from './components/home/home.component';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 //SERVICES
-import { ConfirmationDialogService } from './confirmation-dialog/confirmation-dialog.service';
+import { ConfirmationDialogService } from './components/confirmation-dialog/confirmation-dialog.service';
+
+// REDUSER
+import {
+  taskReducer
+} from './state/app.reducer';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainViewComponent,
+    HomeComponent,
     ConfirmationDialogComponent
   ],
   imports: [
@@ -26,7 +32,10 @@ import { ConfirmationDialogService } from './confirmation-dialog/confirmation-di
     FormsModule,
     DragDropModule,
     NgbModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StoreModule.forRoot({
+      task: taskReducer
+    }),
   ],
   providers: [ConfirmationDialogService],
   bootstrap: [AppComponent],

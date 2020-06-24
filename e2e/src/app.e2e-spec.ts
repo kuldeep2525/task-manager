@@ -9,6 +9,6 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('Welcome to kanban!');
+    expect(page.getTitleText()).toEqual('Welcome to task-manager!');
   });
 });
