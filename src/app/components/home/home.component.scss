@@ -1,4 +1,5 @@
-.wrapper {
+//**************************** STYLING FOR TASK MANAGER ****************************
+.task-manager-container {
   .app-title {
     background-color: #121514;
     font-weight: bold;
@@ -55,10 +56,11 @@
   }
 }
 
-.modal-footer {
-  margin-top: 15px;
+//****************************STYLING FOR ADD TASK MODAL****************************
+.addTaskDataModal{
+  .modal-footer {
+    margin-top: 15px;
+  }
 }
 
-.error {
-  color: red;
-}
+

@@ -1,9 +1,12 @@
-<div class="wrapper">
+<div class="task-manager-container">
   <div class="app-title">
     <h1 class="app-name">Task Manager</h1>
   </div>
+
   <div cdkDropListGroup>
     <div class="row">
+
+      <!-- TODO LIST -->
       <div class="card col-4">
         <div class="card-body">
           <h4 class="card-title">TODO</h4>
@@ -21,6 +24,7 @@
         </div>
       </div>
 
+      <!-- IN PROGRESS LIST -->
       <div class="card col-4">
         <div class="card-body">
           <h4 class="card-title">IN PROGRESS</h4>
@@ -38,6 +42,7 @@
         </div>
       </div>
 
+      <!-- DONE LIST -->
       <div class="card col-4">
         <div class="card-body">
           <h4 class="card-title">DONE</h4>
@@ -59,39 +64,39 @@
   </div>
 </div>
 
+<!-- ADD TASK MODAL -->
 <ng-template #addTaskDataModal let-modal>
-  <div class="modal-header">
+  <div class="addTaskDataModal">
 
-    <h5 class="modal-title" id="editProfileLabel">Add New Task</h5>
+    <div class="modal-header">
+      <h5 class="modal-title" id="editProfileLabel">Add New Task</h5>
+      <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
 
-    <button type="button" class="close" (click)="closeModal()" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-
-  <div class="modal-body">
-    <form [formGroup]="addTaskDataForm" (ngSubmit)="onSubmitAddTaskDataForm()" id="frm_silder" autocomplete="off">
-      <div class="form-group row">
-        <label class="col-4" for="task" class="col-sm-4 col-form-label">Enter Task </label>
-
-        <div class="col-8">
-          <input type="text" class="form-control" formControlName="task" id="task" (focus)="removeCustomError()">
-          <div class="text-danger"
-            *ngIf="(addTaskDataFormControl.task.dirty || submitted) && addTaskDataFormControl.task.errors?.required">
-            Task is required
-          </div>
-
-          <div class="text-danger">
-            <div *ngIf="showErrorTaskExist">Task already Exists</div>
+    <div class="modal-body">
+      <form [formGroup]="addTaskDataForm" (ngSubmit)="onSubmitAddTaskDataForm()" id="frm_silder" autocomplete="off">
+        <div class="form-group row">
+          <label class="col-4" for="task" class="col-sm-4 col-form-label">Enter Task </label>
+          <div class="col-8">
+            <input type="text" class="form-control" formControlName="task" id="task" (focus)="removeCustomError()">
+            <div class="text-danger"
+              *ngIf="(addTaskDataFormControl.task.dirty || submitted) && addTaskDataFormControl.task.errors?.required">
+              Task is required
+            </div>
+            <div class="text-danger">
+              <div *ngIf="showErrorTaskExist">Task already Exists</div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
-        <button [disabled]="!addTaskDataForm.valid || showErrorTaskExist" type="submit" class="btn btn-primary">Save
-          changes</button>
-      </div>
-    </form>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+          <button [disabled]="!addTaskDataForm.valid || showErrorTaskExist" type="submit" class="btn btn-primary">Save
+            changes</button>
+        </div>
+      </form>
+    </div>
   </div>
 </ng-template>

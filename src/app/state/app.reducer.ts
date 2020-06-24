@@ -8,6 +8,7 @@ import {
 
 
 const initialTaskState: Task = { todoList: [], inProgressList: [], doneList: [] };
+
 export function taskReducer(state = initialTaskState, action: TaskActions): Task {
   switch (action.type) {
     case TaskActionTypes.SETTODO:

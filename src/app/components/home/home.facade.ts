@@ -3,7 +3,6 @@ import { AppState } from '../../state/app.state';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-
 import {
   SetTodoAction,
   SetInProgressAction,
@@ -13,6 +12,7 @@ import {
 @Injectable({
   providedIn: 'root'
 })
+
 export class HomeFacade {
   constructor(
     private store: Store<AppState>,
