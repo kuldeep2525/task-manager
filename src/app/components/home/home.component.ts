@@ -1,13 +1,10 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
+import { ConfirmationDialogService } from '../dialogs/confirmation-dialog/confirmation-dialog.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HomeFacade } from './home.facade';
 import { AppState } from '../../state/app.state'
-
-import { AddTaskDialogComponent } from '../add-task-dialog/add-task-dialog.component';
-
-declare var $: any;
+import { AddTaskDialogComponent } from '../dialogs/add-task-dialog/add-task-dialog.component';
 
 @Component({
   selector: 'app-home',

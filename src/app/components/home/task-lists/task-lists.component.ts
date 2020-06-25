@@ -3,11 +3,11 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  selector: 'app-task-lists',
+  templateUrl: './task-lists.component.html',
+  styleUrls: ['./task-lists.component.scss']
 })
-export class ListComponent implements OnInit {
+export class TaskListsComponent implements OnInit {
 
   @Input() todoList;
   @Input() inProgressList;

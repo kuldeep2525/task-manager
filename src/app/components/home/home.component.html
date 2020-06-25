@@ -3,8 +3,8 @@
     <h1 class="app-name">Task Manager</h1>
   </div>
 
-  <app-list [todoList]="todoList" [inProgressList]="inProgressList" [doneList]="doneList" (addTask)="onAddTask($event)"
+  <app-task-lists [todoList]="todoList" [inProgressList]="inProgressList" [doneList]="doneList" (addTask)="onAddTask($event)"
     (removeTask)="onRemoveTask($event)" (dropTask)="onDropTask($event)">
-  </app-list>
+  </app-task-lists>
 
 </div>
