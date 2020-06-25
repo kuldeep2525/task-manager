@@ -35,7 +35,61 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
-  onDrop(event: CdkDragDrop<string[]>) {
+  // ADD TASK
+  onAddTask($event) {
+    const modalRef = this.modalService.open(AddTaskDialogComponent);
+    modalRef.componentInstance.parentData = {
+      list: $event.list
+    }
+
+    modalRef.result.then((result) => {
+      if (!result.isError && result.task) {
+        if ($event.selectedList == 'todo') {
+          this.todoList.push(result.task);
+          this.mainviewFacade.setTodoState(this.todoList);
+        }
+
+        if ($event.selectedList == 'inProgress') {
+          this.inProgressList.push(result.task);
+          this.mainviewFacade.setInprogressState(this.inProgressList);
+        }
+
+        if ($event.selectedList == 'done') {
+          this.doneList.push(result.task);
+          this.mainviewFacade.setDoneState(this.doneList);
+        }
+      }
+    }).catch((result) => {
+
+    });
+  }
+
+  // REMOVE TASK
+  onRemoveTask($event) {
+    this.confirmationDialogService.confirm('Please confirm..', 'Do you really want to delete task ?')
+      .then((confirmed) => {
+        console.log('User confirmed:', confirmed);
+        if (confirmed) {
+          if ($event.selectedList == 'todo') {
+            this.todoList.splice($event.taskIndex, 1);
+            this.mainviewFacade.setTodoState(this.todoList);
+          }
+          if ($event.selectedList == 'inProgress') {
+            this.inProgressList.splice($event.taskIndex, 1);
+            this.mainviewFacade.setTodoState(this.inProgressList);
+          }
+          if ($event.selectedList == 'done') {
+            this.doneList.splice($event.taskIndex, 1);
+            this.mainviewFacade.setTodoState(this.doneList);
+          }
+        }
+      })
+      .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+  }
+
+  //DROP TASK
+  onDropTask(event: CdkDragDrop<string[]>) {
+    console.log("CdkDragDrop =", event)
     if (event.previousContainer === event.container) {
       console.log(event);
       moveItemInArray(
@@ -78,69 +132,6 @@ export class HomeComponent implements OnInit {
         this.mainviewFacade.setDoneState(event.container.data);
       }
     }
-  }
-
-  // ADD TASK
-  onAddTask(selectedList, taskName) {
-    if (selectedList == 'todo') {
-      this.todoList.push(taskName);
-      this.mainviewFacade.setTodoState(this.todoList);
-    }
-
-    if (selectedList == 'inProgress') {
-      this.inProgressList.push(taskName);
-      this.mainviewFacade.setInprogressState(this.inProgressList);
-    }
-
-    if (selectedList == 'done') {
-      this.doneList.push(taskName);
-      this.mainviewFacade.setDoneState(this.doneList);
-    }
-  }
-
-  // REMOVE TASK
-  onRemoveTask(selectedList, taskIndex) {
-    this.onOpenConfirmRemoveTaskModal(selectedList, taskIndex);
-  }
-
-  public onOpenConfirmRemoveTaskModal(selectedList, taskIndex) {
-    this.confirmationDialogService.confirm('Please confirm..', 'Do you really want to delete task ?')
-      .then((confirmed) => {
-        console.log('User confirmed:', confirmed);
-        if (confirmed) {
-          if (selectedList == 'todo') {
-            this.todoList.splice(taskIndex, 1);
-            this.mainviewFacade.setTodoState(this.todoList);
-          }
-          if (selectedList == 'inProgress') {
-            this.inProgressList.splice(taskIndex, 1);
-            this.mainviewFacade.setTodoState(this.inProgressList);
-          }
-          if (selectedList == 'done') {
-            this.doneList.splice(taskIndex, 1);
-            this.mainviewFacade.setTodoState(this.doneList);
-          }
-        }
-      })
-      .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
-  }
-
-  //Save popup
-  onOpenAddTaskDataModal(list, selectedList) {
-    const modalRef = this.modalService.open(AddTaskDialogComponent);
-    modalRef.componentInstance.parentData = {
-      list: list,
-      selectedList: selectedList
-    }
-
-    modalRef.result.then((result) => {
-      if (!result.isError && result.task) {
-        this.onAddTask(selectedList, result.task);
-      }
-    }).catch((result) => {
-
-    });
-
   }
 
 }

@@ -3,63 +3,8 @@
     <h1 class="app-name">Task Manager</h1>
   </div>
 
-  <div cdkDropListGroup>
-    <div class="row">
+  <app-list [todoList]="todoList" [inProgressList]="inProgressList" [doneList]="doneList" (addTask)="onAddTask($event)"
+    (removeTask)="onRemoveTask($event)" (dropTask)="onDropTask($event)">
+  </app-list>
 
-      <!-- TODO LIST -->
-      <div class="card col-4">
-        <div class="card-body">
-          <h4 class="card-title">TODO</h4>
-
-          <div class="card-text" cdkDropList [cdkDropListData]="todoList" (cdkDropListDropped)="onDrop($event)">
-            <div class="task" *ngFor="let item of todoList;let i=inedx" cdkDrag>
-              <div class="task-name">{{ item }}</div>
-              <div class="remove-icon"><i class="fa fa-trash" (click)="onRemoveTask('todo',i)"> </i></div>
-            </div>
-            <div class="text-center">
-              <a
-                (click)="onOpenAddTaskDataModal(todoList,'todo')">{{todoList?.length > 0 ? '+ Add a Another Card' :'+ Add Card'}}</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- IN PROGRESS LIST -->
-      <div class="card col-4">
-        <div class="card-body">
-          <h4 class="card-title">IN PROGRESS</h4>
-
-          <div class="card-text" cdkDropList [cdkDropListData]="inProgressList" (cdkDropListDropped)="onDrop($event)">
-            <div class="task" *ngFor="let item of inProgressList;let i=inedx" cdkDrag>
-              <div class="task-name">{{ item }}</div>
-              <div class="remove-icon"><i class="fa fa-trash" (click)="onRemoveTask('inProgress',i)"> </i></div>
-            </div>
-            <div class="text-center">
-              <a
-                (click)="onOpenAddTaskDataModal(inProgressList,'inProgress')">{{inProgressList?.length > 0 ? '+ Add a Another Card' :'+ Add Card'}}</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- DONE LIST -->
-      <div class="card col-4">
-        <div class="card-body">
-          <h4 class="card-title">DONE</h4>
-
-          <div class="card-text" cdkDropList [cdkDropListData]="doneList" (cdkDropListDropped)="onDrop($event)">
-            <div class="task" *ngFor="let item of doneList;let i=inedx" cdkDrag>
-              <div class="task-name">{{ item }}</div>
-              <div class="remove-icon"><i class="fa fa-trash" (click)="onRemoveTask('done',i)"> </i></div>
-            </div>
-            <div class="text-center">
-              <a
-                (click)="onOpenAddTaskDataModal(doneList,'done')">{{doneList?.length > 0 ? '+ Add a Another Card' :'+ Add Card'}}</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
 </div>

@@ -21,13 +21,15 @@ import { ConfirmationDialogService } from './components/confirmation-dialog/conf
 import {
   taskReducer
 } from './state/app.reducer';
+import { ListComponent } from './components/home/list/list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ConfirmationDialogComponent,
-    AddTaskDialogComponent
+    AddTaskDialogComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,
