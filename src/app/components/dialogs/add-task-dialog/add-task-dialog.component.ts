@@ -35,10 +35,16 @@ export class AddTaskDialogComponent implements OnInit {
     });
   }
 
+  /**
+   * get Form controls for addTaskDataForm
+   */
   get addTaskDataFormControl() {
     return this.addTaskDataForm.controls;
   }
 
+  /**
+   * Submit addTaskData Form
+   */
   onSubmitAddTaskDataForm() {
     this.logger.debug('Inside Add-task-dialog onSubmitAddTaskDataForm()');
     this.addTaskDataFormResponse = this.addTaskDataForm.getRawValue();
@@ -50,29 +56,34 @@ export class AddTaskDialogComponent implements OnInit {
     }
   }
 
+  /**
+  * Remove Custom Error
+  */
   removeCustomError() {
     this.showErrorTaskExist = false;
   }
 
+  /**
+  * Close Modal With Data (task data returning from modal)
+  */
   closeModalWithData() {
     this.logger.debug('Inside Add-task-dialog closeModalWithData()');
-
     this.addTaskDataFormResponse = this.addTaskDataForm.getRawValue();
     this.sendData = {
       task: this.addTaskDataFormResponse.task,
       isError: this.showErrorTaskExist || this.clickCancel
     }
-
-    console.log("sendData =", this.sendData)
+    this.logger.info('Data send by addTaskData Form', this.sendData);
     this.activeModal.close(this.sendData);
-    //this.addTaskDataForm.controls['task'].reset();
   }
 
+  /**
+  * Close Modalon click close or cancel button
+  */
   closeModal() {
     this.logger.debug('Inside Add-task-dialog closeModal()');
     this.clickCancel = true;
     this.closeModalWithData();
-    //this.addTaskDataForm.controls['task'].reset();
   }
 
 }

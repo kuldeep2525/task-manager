@@ -11,6 +11,9 @@ export class ConfirmationDialogService {
     this.logger.debug('Loaded ConfirmationDialog Service');
   }
 
+  /**
+  * Set data in confrim dialog 
+  */
   public confirm(
     title: string,
     message: string,

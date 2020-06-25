@@ -31,18 +31,27 @@ export class TaskListsComponent implements OnInit {
 
   }
 
+  /**
+   * on click add task 
+   */
   onAddTask(list, selectedList) {
     this.logger.debug('Inside TaskLists Component onAddTask()');
     const addTaskModalobj = { list: list, selectedList: selectedList }
     this.addTask.emit(addTaskModalobj);
   }
 
+  /**
+  * on click remove task 
+  */
   onRemoveTask(selectedList, taskIndex) {
     this.logger.debug('Inside TaskLists Component onRemoveTask()');
     const removeTaskobj = { selectedList: selectedList, taskIndex: taskIndex }
     this.removeTask.emit(removeTaskobj);
   }
 
+  /**
+  * on drop task 
+  */
   onDropTask(event: CdkDragDrop<string[]>) {
     this.logger.debug('Inside TaskLists Component onDropTask()');
     this.dropTask.emit(event);

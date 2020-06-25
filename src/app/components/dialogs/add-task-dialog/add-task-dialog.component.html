@@ -1,12 +1,12 @@
 <div class="addTaskDataModal">
-
+  <!-- modal-header -->
   <div class="modal-header">
     <h5 class="modal-title" id="editProfileLabel" [innerHtml]="addTaskLable"></h5>
     <button type="button" class="close" (click)="closeModal()" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-
+  <!-- modal-body -->
   <div class="modal-body">
     <form [formGroup]="addTaskDataForm" (ngSubmit)="onSubmitAddTaskDataForm()" id="frm_silder" autocomplete="off">
       <div class="form-group row">
@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-
+      <!-- "modal-footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="closeModal()" [innerHtml]="closeBtn"></button>
         <button [disabled]="!addTaskDataForm.valid || showErrorTaskExist" type="submit" class="btn btn-primary"

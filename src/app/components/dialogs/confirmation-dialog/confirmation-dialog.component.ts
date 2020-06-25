@@ -16,22 +16,31 @@ export class ConfirmationDialogComponent implements OnInit {
 
   constructor(private activeModal: NgbActiveModal, private logger: NGXLogger) {
     this.logger.debug('Loaded ConfirmationDialog Component');
-   }
-
-  ngOnInit() {
-    
   }
 
+  ngOnInit() {
+
+  }
+
+  /**
+   * User decline to delete task
+   */
   public decline() {
     this.logger.debug('Inside ConfirmationDialog Component decline()');
     this.activeModal.close(false);
   }
 
+  /**
+  * User accept to delete task
+  */
   public accept() {
     this.logger.debug('Inside ConfirmationDialog Component accept()');
     this.activeModal.close(true);
   }
 
+  /**
+  * User close dialog
+  */
   public dismiss() {
     this.logger.debug('Inside ConfirmationDialog Component dismiss()');
     this.activeModal.dismiss();

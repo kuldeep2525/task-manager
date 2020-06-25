@@ -6,9 +6,12 @@ import {
   TaskActionTypes
 } from './app.action';
 
-
+//set initial state of tasks
 const initialTaskState: Task = { todoList: [], inProgressList: [], doneList: [] };
 
+/**
+ *  update old state to new state 
+ */
 export function taskReducer(state = initialTaskState, action: TaskActions): Task {
   switch (action.type) {
     case TaskActionTypes.SETTODO:

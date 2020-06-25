@@ -20,10 +20,16 @@ export class HomeFacade {
 
   }
 
-  public getState(): Observable<any> {
+  /**
+    * get state of app
+    */
+  public getAppState(): Observable<any> {
     return this.store.pipe(select((state: any) => state));
   }
 
+  /**
+    * set state of Todo list
+    */
   public setTodoState(todoList) {
     if (todoList) {
       this.store.dispatch(
@@ -35,6 +41,9 @@ export class HomeFacade {
     }
   }
 
+  /**
+    * set state of Inprogress List
+    */
   public setInprogressState(inprogressList) {
     if (inprogressList) {
       this.store.dispatch(
@@ -46,6 +55,9 @@ export class HomeFacade {
     }
   }
 
+  /**
+    * set state of Done list
+    */
   public setDoneState(doneList) {
     if (doneList) {
       this.store.dispatch(
