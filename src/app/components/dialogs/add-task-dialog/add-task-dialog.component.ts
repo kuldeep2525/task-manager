@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AppConstants } from '../../../constants/app.constants';
+
 
 @Component({
   selector: 'app-add-task-dialog',
@@ -16,6 +18,12 @@ export class AddTaskDialogComponent implements OnInit {
   showErrorTaskExist = false;
   sendData;
   clickCancel = false;
+  addTaskLable = AppConstants.LABLES.ADDTASK;
+  enterTaskLable = AppConstants.LABLES.ENTERTASK;
+  closeBtn = AppConstants.BUTTONS.CLOSE;
+  saveBtn = AppConstants.BUTTONS.SAVE;
+  taskRequiredError = AppConstants.ERRORMESSGES.TASKREQUIRED;
+  taskExistsError = AppConstants.ERRORMESSGES.TASKREQUIRED;
 
   constructor(private activeModal: NgbActiveModal, private fb: FormBuilder) { }
 

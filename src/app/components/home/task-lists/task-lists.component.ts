@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-
+import { AppConstants } from '../../../constants/app.constants';
 
 @Component({
   selector: 'app-task-lists',
@@ -15,6 +15,14 @@ export class TaskListsComponent implements OnInit {
   @Output() addTask: EventEmitter<any> = new EventEmitter();
   @Output() removeTask: EventEmitter<any> = new EventEmitter();
   @Output() dropTask: EventEmitter<any> = new EventEmitter();
+
+  todoListLable = AppConstants.LABLES.TODOLIST;
+  inProgressListLable = AppConstants.LABLES.INPRGOGRESSLIST;
+  doneListLable = AppConstants.LABLES.DONELIST;
+  addCardLable = AppConstants.LABLES.ADDCARD;
+  addAnotherCardLable = AppConstants.LABLES.ADDANOTHERCARD;
+  
+
 
   constructor() { }
 

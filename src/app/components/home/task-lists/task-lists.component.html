@@ -3,7 +3,7 @@
   <!-- TODO LIST -->
   <div class="card col-4">
     <div class="card-body">
-      <h4 class="card-title">TODO</h4>
+      <h4 class="card-title" [innerHtml]="todoListLable"></h4>
 
       <div class="card-text" cdkDropList [cdkDropListData]="todoList" (cdkDropListDropped)="onDropTask($event)">
         <div class="task" *ngFor="let item of todoList;let i=inedx" cdkDrag>
@@ -11,7 +11,7 @@
           <div class="remove-icon"><i class="fa fa-trash" (click)="onRemoveTask('todo',i)"> </i></div>
         </div>
         <div class="text-center">
-          <a (click)="onAddTask(todoList,'todo')">{{todoList?.length > 0 ? '+ Add a Another Card' :'+ Add Card'}}</a>
+          <a (click)="onAddTask(todoList,'todo')">{{todoList?.length > 0 ? addAnotherCardLable : addCardLable}}</a>
         </div>
       </div>
     </div>
@@ -20,7 +20,7 @@
   <!-- IN PROGRESS LIST -->
   <div class="card col-4">
     <div class="card-body">
-      <h4 class="card-title">IN PROGRESS</h4>
+      <h4 class="card-title" [innerHtml]="inProgressListLable"></h4>
 
       <div class="card-text" cdkDropList [cdkDropListData]="inProgressList" (cdkDropListDropped)="onDropTask($event)">
         <div class="task" *ngFor="let item of inProgressList;let i=inedx" cdkDrag>
@@ -29,7 +29,7 @@
         </div>
         <div class="text-center">
           <a
-            (click)="onAddTask(inProgressList,'inProgress')">{{inProgressList?.length > 0 ? '+ Add a Another Card' :'+ Add Card'}}</a>
+            (click)="onAddTask(inProgressList,'inProgress')">{{inProgressList?.length > 0 ? addAnotherCardLable : addCardLable}}</a>
         </div>
       </div>
     </div>
@@ -38,7 +38,7 @@
   <!-- DONE LIST -->
   <div class="card col-4">
     <div class="card-body">
-      <h4 class="card-title">DONE</h4>
+      <h4 class="card-title" [innerHtml]="doneListLable"></h4>
 
       <div class="card-text" cdkDropList [cdkDropListData]="doneList" (cdkDropListDropped)="onDropTask($event)">
         <div class="task" *ngFor="let item of doneList;let i=inedx" cdkDrag>
@@ -46,7 +46,7 @@
           <div class="remove-icon"><i class="fa fa-trash" (click)="onRemoveTask('done',i)"> </i></div>
         </div>
         <div class="text-center">
-          <a (click)="onAddTask(doneList,'done')">{{doneList?.length > 0 ? '+ Add a Another Card' :'+ Add Card'}}</a>
+          <a (click)="onAddTask(doneList,'done')">{{doneList?.length > 0 ? addAnotherCardLable : addCardLable}}</a>
         </div>
       </div>
     </div>

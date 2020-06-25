@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HomeFacade } from './home.facade';
 import { AppState } from '../../state/app.state'
 import { AddTaskDialogComponent } from '../dialogs/add-task-dialog/add-task-dialog.component';
+import { AppConstants } from '../../constants/app.constants';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +16,7 @@ export class HomeComponent implements OnInit {
   todoList = [];
   inProgressList = [];
   doneList = [];
+  appName = AppConstants.LABLES.APPNAME
 
   constructor(private confirmationDialogService: ConfirmationDialogService, public modalService: NgbModal, public mainviewFacade: HomeFacade) {
 
@@ -64,7 +66,7 @@ export class HomeComponent implements OnInit {
 
   // REMOVE TASK
   onRemoveTask($event) {
-    this.confirmationDialogService.confirm('Please confirm..', 'Do you really want to delete task ?')
+    this.confirmationDialogService.confirm(AppConstants.LABLES.CONFIRM, AppConstants.MESSEGES.CONFIRMTASK)
       .then((confirmed) => {
         console.log('User confirmed:', confirmed);
         if (confirmed) {
