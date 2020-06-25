@@ -19,6 +19,7 @@ export class TaskListsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
   }
 
   onAddTask(list, selectedList) {
