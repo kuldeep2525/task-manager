@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppConstants } from '../../../constants/app.constants';
-
+import { NGXLogger } from 'ngx-logger';
 
 @Component({
   selector: 'app-add-task-dialog',
@@ -25,7 +25,9 @@ export class AddTaskDialogComponent implements OnInit {
   taskRequiredError = AppConstants.ERRORMESSGES.TASKREQUIRED;
   taskExistsError = AppConstants.ERRORMESSGES.TASKREQUIRED;
 
-  constructor(private activeModal: NgbActiveModal, private fb: FormBuilder) { }
+  constructor(private activeModal: NgbActiveModal, private fb: FormBuilder, private logger: NGXLogger) {
+    this.logger.debug('Loaded Add-task-dialog');
+  }
 
   ngOnInit() {
     this.addTaskDataForm = this.fb.group({
@@ -38,6 +40,7 @@ export class AddTaskDialogComponent implements OnInit {
   }
 
   onSubmitAddTaskDataForm() {
+    this.logger.debug('Inside Add-task-dialog onSubmitAddTaskDataForm()');
     this.addTaskDataFormResponse = this.addTaskDataForm.getRawValue();
     if (this.parentData.list.indexOf(this.addTaskDataFormResponse.task) > -1) {
       this.showErrorTaskExist = true;
@@ -52,6 +55,8 @@ export class AddTaskDialogComponent implements OnInit {
   }
 
   closeModalWithData() {
+    this.logger.debug('Inside Add-task-dialog closeModalWithData()');
+
     this.addTaskDataFormResponse = this.addTaskDataForm.getRawValue();
     this.sendData = {
       task: this.addTaskDataFormResponse.task,
@@ -63,12 +68,11 @@ export class AddTaskDialogComponent implements OnInit {
     //this.addTaskDataForm.controls['task'].reset();
   }
 
-
   closeModal() {
+    this.logger.debug('Inside Add-task-dialog closeModal()');
     this.clickCancel = true;
     this.closeModalWithData();
     //this.addTaskDataForm.controls['task'].reset();
   }
-
 
 }

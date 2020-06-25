@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AppConstants } from '../../../constants/app.constants';
+import { NGXLogger } from 'ngx-logger';
 
 @Component({
   selector: 'app-task-lists',
@@ -21,26 +22,29 @@ export class TaskListsComponent implements OnInit {
   doneListLable = AppConstants.LABLES.DONELIST;
   addCardLable = AppConstants.LABLES.ADDCARD;
   addAnotherCardLable = AppConstants.LABLES.ADDANOTHERCARD;
-  
 
-
-  constructor() { }
+  constructor(private logger: NGXLogger) {
+    this.logger.debug('Loaded TaskLists Component');
+  }
 
   ngOnInit() {
 
   }
 
   onAddTask(list, selectedList) {
+    this.logger.debug('Inside TaskLists Component onAddTask()');
     const addTaskModalobj = { list: list, selectedList: selectedList }
     this.addTask.emit(addTaskModalobj);
   }
 
   onRemoveTask(selectedList, taskIndex) {
+    this.logger.debug('Inside TaskLists Component onRemoveTask()');
     const removeTaskobj = { selectedList: selectedList, taskIndex: taskIndex }
     this.removeTask.emit(removeTaskobj);
   }
 
   onDropTask(event: CdkDragDrop<string[]>) {
+    this.logger.debug('Inside TaskLists Component onDropTask()');
     this.dropTask.emit(event);
   }
 }

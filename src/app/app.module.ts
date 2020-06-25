@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {StoreModule} from '@ngrx/store';
+import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 
 //COMPONENTS
 import { AppComponent } from './app.component';
@@ -41,6 +42,7 @@ import { TaskListsComponent } from './components/home/task-lists/task-lists.comp
     StoreModule.forRoot({
       task: taskReducer
     }),
+    LoggerModule.forRoot({ level: NgxLoggerLevel.DEBUG, serverLogLevel: NgxLoggerLevel.ERROR})
   ],
   providers: [ConfirmationDialogService],
   bootstrap: [AppComponent],

@@ -6,11 +6,13 @@ import { HomeFacade } from './home.facade';
 import { AppState } from '../../state/app.state'
 import { AddTaskDialogComponent } from '../dialogs/add-task-dialog/add-task-dialog.component';
 import { AppConstants } from '../../constants/app.constants';
+import { NGXLogger } from 'ngx-logger';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  providers: [NGXLogger]
 })
 export class HomeComponent implements OnInit {
   todoList = [];
@@ -18,15 +20,16 @@ export class HomeComponent implements OnInit {
   doneList = [];
   appName = AppConstants.LABLES.APPNAME
 
-  constructor(private confirmationDialogService: ConfirmationDialogService, public modalService: NgbModal, public mainviewFacade: HomeFacade) {
+  constructor(private confirmationDialogService: ConfirmationDialogService, public modalService: NgbModal, public homeFacade: HomeFacade, private logger: NGXLogger) {
+    this.logger.debug('Loaded HomeComponent');
 
-    this.mainviewFacade.getState().subscribe((state: AppState) => {
-      console.log("state =", state)
+    this.homeFacade.getState().subscribe((state: AppState) => {
+      this.logger.debug('AppState', state);
       this.todoList = state.task.todoList;
       this.inProgressList = state.task.inProgressList;
       this.doneList = state.task.doneList;
     }, (error: Error) => {
-
+      this.logger.error('Error to get AppState', error);
     });
 
   }
@@ -37,6 +40,7 @@ export class HomeComponent implements OnInit {
 
   // ADD TASK
   onAddTask($event) {
+    this.logger.debug('Inside Home Component onAddTask()');
     const modalRef = this.modalService.open(AddTaskDialogComponent);
     modalRef.componentInstance.parentData = {
       list: $event.list
@@ -46,17 +50,20 @@ export class HomeComponent implements OnInit {
       if (!result.isError && result.task) {
         if ($event.selectedList == 'todo') {
           this.todoList.push(result.task);
-          this.mainviewFacade.setTodoState(this.todoList);
+          this.homeFacade.setTodoState(this.todoList);
+          this.logger.info('onAddTask updated todoList', this.todoList);
         }
 
         if ($event.selectedList == 'inProgress') {
           this.inProgressList.push(result.task);
-          this.mainviewFacade.setInprogressState(this.inProgressList);
+          this.homeFacade.setInprogressState(this.inProgressList);
+          this.logger.info('onAddTask updated inProgressList', this.inProgressList);
         }
 
         if ($event.selectedList == 'done') {
           this.doneList.push(result.task);
-          this.mainviewFacade.setDoneState(this.doneList);
+          this.homeFacade.setDoneState(this.doneList);
+          this.logger.info('onAddTask updated doneList', this.doneList);
         }
       }
     }).catch((result) => {
@@ -66,45 +73,52 @@ export class HomeComponent implements OnInit {
 
   // REMOVE TASK
   onRemoveTask($event) {
+    this.logger.debug('Inside Home Component onRemoveTask()');
     this.confirmationDialogService.confirm(AppConstants.LABLES.CONFIRM, AppConstants.MESSEGES.CONFIRMTASK)
       .then((confirmed) => {
-        console.log('User confirmed:', confirmed);
+
         if (confirmed) {
           if ($event.selectedList == 'todo') {
             this.todoList.splice($event.taskIndex, 1);
-            this.mainviewFacade.setTodoState(this.todoList);
+            this.homeFacade.setTodoState(this.todoList);
+            this.logger.info('onRemoveTask updated inProgressList', this.todoList);
           }
           if ($event.selectedList == 'inProgress') {
             this.inProgressList.splice($event.taskIndex, 1);
-            this.mainviewFacade.setTodoState(this.inProgressList);
+            this.homeFacade.setTodoState(this.inProgressList);
+            this.logger.info('onRemoveTask updated inProgressList', this.inProgressList);
+
           }
           if ($event.selectedList == 'done') {
             this.doneList.splice($event.taskIndex, 1);
-            this.mainviewFacade.setTodoState(this.doneList);
+            this.homeFacade.setTodoState(this.doneList);
+            this.logger.info('onRemoveTask updated inProgressList', this.doneList);
           }
         }
       })
-      .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+      .catch(() => {
+        this.logger.info('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)');
+      })
   }
 
   //DROP TASK
   onDropTask(event: CdkDragDrop<string[]>) {
-    console.log("CdkDragDrop =", event)
+    this.logger.debug('Inside Home Component onDropTask()');
+    this.logger.debug('onDropTask EVENT', event);
     if (event.previousContainer === event.container) {
-      console.log(event);
       moveItemInArray(
         event.container.data,
         event.previousIndex,
         event.currentIndex);
 
       if (event.container.id == 'todo') {
-        this.mainviewFacade.setTodoState(event.previousContainer.data);
+        this.homeFacade.setTodoState(event.previousContainer.data);
       }
       if (event.container.id == 'inProgress') {
-        this.mainviewFacade.setInprogressState(event.previousContainer.data);
+        this.homeFacade.setInprogressState(event.previousContainer.data);
       }
       if (event.container.id == 'done') {
-        this.mainviewFacade.setDoneState(event.previousContainer.data);
+        this.homeFacade.setDoneState(event.previousContainer.data);
       }
     } else {
       transferArrayItem(event.previousContainer.data,
@@ -113,23 +127,23 @@ export class HomeComponent implements OnInit {
         event.currentIndex);
 
       if (event.previousContainer.id == 'todo') {
-        this.mainviewFacade.setTodoState(event.previousContainer.data);
+        this.homeFacade.setTodoState(event.previousContainer.data);
       }
       if (event.previousContainer.id == 'inProgress') {
-        this.mainviewFacade.setInprogressState(event.previousContainer.data);
+        this.homeFacade.setInprogressState(event.previousContainer.data);
       }
       if (event.previousContainer.id == 'done') {
-        this.mainviewFacade.setDoneState(event.previousContainer.data);
+        this.homeFacade.setDoneState(event.previousContainer.data);
       }
 
       if (event.container.id == 'todo') {
-        this.mainviewFacade.setTodoState(event.container.data);
+        this.homeFacade.setTodoState(event.container.data);
       }
       if (event.container.id == 'inProgress') {
-        this.mainviewFacade.setInprogressState(event.container.data);
+        this.homeFacade.setInprogressState(event.container.data);
       }
       if (event.container.id == 'done') {
-        this.mainviewFacade.setDoneState(event.container.data);
+        this.homeFacade.setDoneState(event.container.data);
       }
     }
   }
